@@ -129,4 +129,29 @@ class Rational():
         return Rational(int(vals[0]), int(vals[1]))
 
     
-    
+    ##############################
+
+    # Overload Equality Relation #
+
+    ##############################
+
+    """
+    Overload operator for equality
+    """
+    def __eq__(self, other):
+        other = Rational(other)
+        return other.numerator * self.denominator == self.numerator * other.denominator
+
+
+    ###########################################
+
+    # Set output formats of __str__, __repr__ #
+
+    ###########################################
+
+
+    def __repr__(self):
+        return str(self.numerator) + '/' + str(self.denominator)
+
+    def __str__(self):
+        return str(self.numerator) + '/' + str(self.denominator)
