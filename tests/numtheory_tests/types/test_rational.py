@@ -2,7 +2,7 @@
 Tests for Rational numbers defined by the class.
 """
 
-import numtheory.Rational
+from numtheory.types.Rational import Rational
 
 #############
 
@@ -34,13 +34,13 @@ def test_main_constructor():
     flag = False
     try:
         err = Rational(1,0)
-    except ValueError:
+    except ZeroDivisionError:
         flag = True
 
     assert flag == True
 
 def test_from_str():
-    assert Rational.from_str("1,2") == A
+    assert Rational.from_str("1/2") == A
 
 
 
@@ -85,7 +85,7 @@ def test_multiplication():
 def test_division():
     assert A / B == Rational(3,2)
     assert A / 2 == Rational(1,4)
-    assert 2 / A == 1
+    assert 2 / A == 4
 
 
 def test_power():
@@ -121,7 +121,7 @@ def test_idiv():
 
 def test_ipow():
     a = A
-    a *= 4
+    a **= 4
     assert a == Rational(1, 16)
 
 

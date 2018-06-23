@@ -13,10 +13,10 @@ class Rational():
 
     The additional logic is to ensure positive denominators.
     """
-    def __init__(numerator, denominator=1):
-        if b != 0:
-            self.numerator = int(numerator * (denominator/abs(denominator))
-            self.b = abs(b)
+    def __init__(self, numerator, denominator=1):
+        if denominator != 0:
+            self.numerator = int(numerator * (denominator/abs(denominator)))
+            self.denominator = abs(denominator)
         else:
             raise ZeroDivisionError("The denominator must be non-zero")
     
@@ -33,21 +33,25 @@ class Rational():
     """
 
     def __add__(self, other):
-        other = Rational(other)
+        if not isinstance(other, Rational):
+            other = Rational(other)
         return Rational((self.numerator * other.denominator) + (self.denominator * other.numerator),
                         self.denominator * other.denominator)
 
     def __sub__(self, other):
-        other = Rational(other)
+        if not isinstance(other, Rational):
+            other = Rational(other)
         return Rational((self.numerator * other.denominator) - (self.denominator * other.numerator),
                         self.denominator * other.denominator)
 
     def __mul__(self, other):
-        other = Rational(other)
+        if not isinstance(other, Rational):
+            other = Rational(other)
         return Rational(self.numerator * other.numerator, self.denominator * other.denominator)
 
     def __truediv__(self, other):
-        other = Rational(other)
+        if not isinstance(other, Rational):
+            other = Rational(other)
         return Rational(self.numerator * other.denominator, self.denominator * other.numerator)
 
     def __neg__(self):
@@ -82,13 +86,24 @@ class Rational():
             q = 1
             while power < 0:
                 q *= (reciprocal)
-                return q
+                power += 1
+            return q
 
 
     # Make commutative operators commutative
 
     __radd__ = __add__
-    __rmul__ = __mul__ 
+    __rmul__ = __mul__
+
+    def __rsub__(self, other):
+        if not isinstance(other, Rational):
+            other = Rational(other)
+        return other - self
+
+    def __rtruediv__(self, other):
+        if not isinstance(other, Rational):
+            other = Rational(other)
+        return other / self
 
     # Define assignment operators +=, -=, *=, /=, **=
 
@@ -124,9 +139,9 @@ class Rational():
     Constructor from string of the form "a/b"
     """
     @classmethod
-    def from_str(string):
+    def from_str(cls, string):
         vals = string.split('/')
-        return Rational(int(vals[0]), int(vals[1]))
+        return cls(int(vals[0]), int(vals[1]))
 
     
     ##############################
@@ -139,7 +154,8 @@ class Rational():
     Overload operator for equality
     """
     def __eq__(self, other):
-        other = Rational(other)
+        if not isinstance(other, Rational):
+            other = Rational(other)
         return other.numerator * self.denominator == self.numerator * other.denominator
 
 
